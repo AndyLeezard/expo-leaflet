@@ -10,6 +10,7 @@ export type LeafletMapProps = {
   mapCenterPosition: LatLngLiteral
   zoom?: number
   maxZoom?: number
+  flyTrigger?: number
 }
 
 export type ExpoLeafletProps = LeafletMapProps & {

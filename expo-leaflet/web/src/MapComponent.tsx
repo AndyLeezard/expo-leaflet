@@ -5,9 +5,9 @@ import type {
   LatLngLiteral,
   LeafletMouseEvent,
   Map as LeafletMap,
-} from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-import React, { useEffect, useState } from 'react'
+} from "leaflet"
+import "leaflet/dist/leaflet.css"
+import React, { useEffect, useState } from "react"
 import {
   ImageOverlay,
   ImageOverlayProps,
@@ -17,13 +17,13 @@ import {
   TileLayerProps,
   WMSTileLayer,
   WMSTileLayerProps,
-} from 'react-leaflet'
-import Measure from 'react-measure'
-import './styles/markers.css'
-import { ExpoLeafletProps } from './ExpoLeaflet.types'
-import { MapMarkers } from './MapMarkers'
-import { MapShapes } from './MapShapes'
-import { MapLayer } from './model'
+} from "react-leaflet"
+import Measure from "react-measure"
+import "./styles/markers.css"
+import { ExpoLeafletProps } from "./ExpoLeaflet.types"
+import { MapMarkers } from "./MapMarkers"
+import { MapShapes } from "./MapShapes"
+import { MapLayer } from "./model"
 
 const { BaseLayer } = LayersControl
 
@@ -33,9 +33,9 @@ interface MapLayersProps {
 
 const Layer = (props: MapLayer): JSX.Element => {
   switch (props.layerType) {
-    case 'ImageOverlay':
+    case "ImageOverlay":
       return <ImageOverlay {...(props as ImageOverlayProps)} />
-    case 'WMSTileLayer':
+    case "WMSTileLayer":
       return <WMSTileLayer {...(props as WMSTileLayerProps)} />
     default:
       return <TileLayer {...(props as TileLayerProps)} />
@@ -98,18 +98,26 @@ export const MapComponent = (props: ExpoLeafletProps) => {
   } = props
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 })
   const [mapRef, setMapRef] = useState<LeafletMap | null>(null)
+
   useEffect(() => {
-    if (props.mapCenterPosition || props.zoom) {
+    if (props.mapCenterPosition && props.flyTrigger) {
       props.onMessage({
-        tag: 'DebugMessage',
-        message: `Flying to ${props.mapCenterPosition.lat},${props.mapCenterPosition.lng} ${props.zoom}`,
+        tag: "DebugMessage",
+        message: `Flying to ${props.mapCenterPosition.lat},${props.mapCenterPosition.lng} ${props.flyTrigger}`,
       })
       mapRef?.flyTo(
         [props.mapCenterPosition.lat, props.mapCenterPosition.lng],
-        props.zoom,
+        zoom,
+        { duration: 1000 }
       )
     }
-  }, [props.mapCenterPosition?.lat, props.mapCenterPosition?.lng, props.zoom])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    /* props.mapCenterPosition?.lat,
+    props.mapCenterPosition?.lng, */
+    props.flyTrigger,
+  ])
+
   return (
     <Measure
       bounds
@@ -125,7 +133,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
           ref={measureRef}
           id="map-container"
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             bottom: 0,
             backgroundColor: props.backgroundColor,
@@ -142,13 +150,13 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   click: (event: LeafletMouseEvent) => {
                     const { latlng } = event
                     onMessage({
-                      tag: 'onMapClicked',
+                      tag: "onMapClicked",
                       location: toLatLngLiteral(latlng),
                     })
                   },
                   move: () => {
                     onMessage({
-                      tag: 'onMove',
+                      tag: "onMove",
                       bounds: bounds(map),
                       mapCenter: center(map),
                       zoom: map.getZoom()!,
@@ -156,7 +164,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   moveend: () => {
                     onMessage({
-                      tag: 'onMoveEnd',
+                      tag: "onMoveEnd",
                       bounds: bounds(map),
                       mapCenter: center(map),
                       zoom: map.getZoom()!,
@@ -164,7 +172,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   movestart: () => {
                     onMessage({
-                      tag: 'onMoveStart',
+                      tag: "onMoveStart",
                       bounds: bounds(map),
                       mapCenter: center(map),
                       zoom: map.getZoom()!,
@@ -172,7 +180,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   resize: () => {
                     onMessage({
-                      tag: 'onResize',
+                      tag: "onResize",
                       bounds: bounds(mapRef),
                       mapCenter: center(mapRef),
                       zoom: mapRef?.getZoom()!,
@@ -180,7 +188,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   unload: () => {
                     onMessage({
-                      tag: 'onUnload',
+                      tag: "onUnload",
                       bounds: bounds(mapRef),
                       mapCenter: center(mapRef),
                       zoom: mapRef?.getZoom()!,
@@ -188,7 +196,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   zoom: () => {
                     onMessage({
-                      tag: 'onZoom',
+                      tag: "onZoom",
                       bounds: bounds(map),
                       mapCenter: center(map),
                       zoom: mapRef?.getZoom()!,
@@ -196,7 +204,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   zoomend: () => {
                     onMessage({
-                      tag: 'onZoomEnd',
+                      tag: "onZoomEnd",
                       bounds: bounds(map),
                       mapCenter: center(map),
                       zoom: mapRef?.getZoom()!,
@@ -204,7 +212,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   zoomlevelschange: () => {
                     onMessage({
-                      tag: 'onZoomLevelsChange',
+                      tag: "onZoomLevelsChange",
                       bounds: bounds(mapRef),
                       mapCenter: center(mapRef),
                       zoom: mapRef?.getZoom()!,
@@ -212,26 +220,26 @@ export const MapComponent = (props: ExpoLeafletProps) => {
                   },
                   zoomstart: () => {
                     onMessage({
-                      tag: 'onZoomStart',
+                      tag: "onZoomStart",
                       bounds: bounds(map),
                       mapCenter: center(map),
                       zoom: mapRef?.getZoom()!,
                     })
                   },
                 })
-                onMessage({ tag: 'MapReady', version: '1.0.2' })
+                onMessage({ tag: "MapReady", version: "1.0.3" })
               }}
               center={mapCenterPosition as LatLngExpression}
-              maxZoom={props.maxZoom ?? 20}
+              maxZoom={props.maxZoom ?? 18}
               zoom={zoom}
-              style={{ width: '100%', height: dimensions.height }}
+              style={{ width: "100%", height: dimensions.height }}
             >
               <MapLayers mapLayers={mapLayers} />
               <MapMarkers
                 mapMarkers={mapMarkers}
                 onClick={(mapMarkerId) => {
                   onMessage({
-                    tag: 'onMapMarkerClicked',
+                    tag: "onMapMarkerClicked",
                     mapMarkerId,
                   })
                 }}
