@@ -107,8 +107,7 @@ export const MapComponent = (props: ExpoLeafletProps) => {
       })
       mapRef?.flyTo(
         [props.mapCenterPosition.lat, props.mapCenterPosition.lng],
-        zoom,
-        { duration: 1000 }
+        zoom
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
