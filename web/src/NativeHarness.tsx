@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { LeafletMapProps } from './ExpoLeaflet.types'
-import { MapComponent } from './MapComponent'
-import { LeafletWebViewEvent } from './model'
-import './styles/index.css'
+import React, { useEffect, useState } from "react"
+import { LeafletMapProps } from "./ExpoLeaflet.types"
+import { MapComponent } from "./MapComponent"
+import { LeafletWebViewEvent } from "./model"
+import "./styles/index.css"
 
 const sendMessage = (message: LeafletWebViewEvent) => {
   // @ts-ignore
@@ -10,7 +10,7 @@ const sendMessage = (message: LeafletWebViewEvent) => {
 }
 
 const sendDebugMessage = (message: string) => {
-  sendMessage({ tag: 'DebugMessage', message })
+  sendMessage({ tag: "DebugMessage", message })
 }
 
 export const NativeHarness = () => {
@@ -21,6 +21,7 @@ export const NativeHarness = () => {
     mapShapes: [],
     maxZoom: 20,
     zoom: 6,
+    flyTrigger: 0,
   })
 
   useEffect(() => {
@@ -36,20 +37,20 @@ export const NativeHarness = () => {
       }
     }
     if (window) {
-      window.addEventListener('message', handleNativeMessage)
+      window.addEventListener("message", handleNativeMessage)
       sendMessage({
-        tag: 'MapComponentMounted',
-        version: '1.0.2',
+        tag: "MapComponentMounted",
+        version: "1.0.2",
       })
     } else {
       sendMessage({
-        tag: 'Error',
-        error: 'Unable to add window / document event listeners',
+        tag: "Error",
+        error: "Unable to add window / document event listeners",
       })
     }
     return () => {
       if (window) {
-        window.removeEventListener('message', handleNativeMessage)
+        window.removeEventListener("message", handleNativeMessage)
       }
     }
   }, [])
@@ -72,6 +73,7 @@ export const NativeHarness = () => {
       mapShapes={state.mapShapes}
       maxZoom={state.maxZoom}
       zoom={state.zoom}
+      flyTrigger={state.flyTrigger}
       onMessage={(webViewLeafletEvent: LeafletWebViewEvent) => {
         sendMessage(webViewLeafletEvent)
       }}
