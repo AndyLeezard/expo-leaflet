@@ -81,6 +81,9 @@ export const ExpoLeaflet = ({
     if (mapProps.zoom !== previousProps.zoom) {
       newMapProps.zoom = mapProps.zoom
     }
+    if (mapProps.flyTrigger !== previousProps.flyTrigger) {
+      newMapProps.flyTrigger = mapProps.flyTrigger
+    }
     previousPropsRef.current = {
       ...previousProps,
       ...mapProps,
