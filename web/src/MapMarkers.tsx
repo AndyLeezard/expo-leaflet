@@ -19,10 +19,13 @@ function isValidBase64ImageDataURL(str: string) {
 
 export const createDivIcon = (mapMarker: MapMarkerType): DivIcon => {
   const [x, y]: Dimensions = mapMarker.size ?? [24, 24]
-  const html = /^(https?:\/\/|ftp:\/\/)([^\s/$.?#].[^\s]*)$/i.test(mapMarker.icon)
-    ? `<img src="${mapMarker.icon}" style="width:${x}px;height:${y}px;">`
+  const direction = mapMarker.direction ?? "0deg"
+  const html = /^(https?:\/\/|ftp:\/\/)([^\s/$.?#].[^\s]*)$/i.test(
+    mapMarker.icon
+  )
+    ? `<img src="${mapMarker.icon}" style="width:${x}px;height:${y}px;transform:rotate(${direction});">`
     : isValidBase64ImageDataURL(mapMarker.icon)
-    ? `<img src="${mapMarker.icon}" style="width:${x}px;height:${y}px;">`
+    ? `<img src="${mapMarker.icon}" style="width:${x}px;height:${y}px;transform:rotate(${direction});">`
     : `<div style='font-size: ${Math.max(x, y)}px'>${mapMarker.icon}</div>`
 
   return divIcon({
