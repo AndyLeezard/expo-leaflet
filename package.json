@@ -1,10 +1,10 @@
 {
   "name": "expo-leaflet",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A React Native component that uses a WebView to provide a Leaflet map.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dean177/expo-leaflet.git"
+    "url": "git+https://github.com/AndyLeezard/expo-leaflet.git"
   },
   "keywords": [
     "expo",
@@ -23,6 +23,9 @@
     "prepublish": "yarn build"
   },
   "author": "Dean Merchant <deanmerchant@gmail.com>",
+  "contributors": [
+    "Andy Lee <a.lee.intl@gmail.com>"
+  ],
   "license": "MIT",
   "dependencies": {
     "leaflet": "^1.7.1",
