@@ -1,4 +1,4 @@
-import type {
+import {
   LatLng,
   LatLngBoundsLiteral,
   LatLngExpression,
@@ -100,22 +100,25 @@ export const MapComponent = (props: ExpoLeafletProps) => {
   const [mapRef, setMapRef] = useState<LeafletMap | null>(null)
 
   useEffect(() => {
-    if (props.mapCenterPosition && props.flyTrigger) {
-      props.onMessage({
-        tag: "DebugMessage",
-        message: `Flying to ${props.mapCenterPosition.lat},${props.mapCenterPosition.lng} ${props.flyTrigger}`,
-      })
-      mapRef?.flyTo(
-        [props.mapCenterPosition.lat, props.mapCenterPosition.lng],
-        zoom
-      )
+    if (mapRef) {
+      if (props.mapCenterPosition && props.flyTrigger) {
+        props.onMessage({
+          tag: "DebugMessage",
+          message: `Flying to ${props.mapCenterPosition.lat},${props.mapCenterPosition.lng} | ${props.flyTrigger}`,
+        })
+        mapRef.flyTo(
+          [props.mapCenterPosition.lat, props.mapCenterPosition.lng],
+          zoom
+        )
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    /* props.mapCenterPosition?.lat,
-    props.mapCenterPosition?.lng, */
-    props.flyTrigger,
-  ])
+  }, [mapRef, props.flyTrigger])
+
+  useEffect(() => {
+    if (mapRef && props.mapBounds) {
+      mapRef.fitBounds(props.mapBounds)
+    }
+  }, [mapRef, props.mapBounds])
 
   return (
     <Measure
@@ -233,6 +236,19 @@ export const MapComponent = (props: ExpoLeafletProps) => {
               zoom={zoom}
               style={{ width: "100%", height: dimensions.height }}
             >
+              {props.imageOverlays ? (
+                props.imageOverlays.map((io, key) => {
+                  return (
+                    <ImageOverlay
+                      key={`io-${key}`}
+                      url={io.imageUrl}
+                      bounds={io.bounds}
+                    />
+                  )
+                })
+              ) : (
+                <></>
+              )}
               <MapLayers mapLayers={mapLayers} />
               <MapMarkers
                 mapMarkers={mapMarkers}

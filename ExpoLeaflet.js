@@ -61,11 +61,20 @@ export const ExpoLeaflet = ({ wrapperStyle, webviewContainerStyle, loadingIndica
         if (!isEqual(mapProps.mapShapes, previousProps.mapShapes)) {
             newMapProps.mapShapes = mapProps.mapShapes;
         }
+        if (!isEqual(mapProps.imageOverlays, previousProps.imageOverlays)) {
+            newMapProps.imageOverlays = mapProps.imageOverlays;
+        }
+        if (!isEqual(mapProps.mapBounds, previousProps.mapBounds)) {
+            newMapProps.mapBounds = mapProps.mapBounds;
+        }
         if (mapProps.maxZoom !== previousProps.maxZoom) {
             newMapProps.maxZoom = mapProps.maxZoom;
         }
         if (mapProps.zoom !== previousProps.zoom) {
             newMapProps.zoom = mapProps.zoom;
+        }
+        if (mapProps.flyTrigger !== previousProps.flyTrigger) {
+            newMapProps.flyTrigger = mapProps.flyTrigger;
         }
         previousPropsRef.current = {
             ...previousProps,

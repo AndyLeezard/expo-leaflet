@@ -75,6 +75,12 @@ export const ExpoLeaflet = ({
     if (!isEqual(mapProps.mapShapes, previousProps.mapShapes)) {
       newMapProps.mapShapes = mapProps.mapShapes
     }
+    if (!isEqual(mapProps.imageOverlays, previousProps.imageOverlays)) {
+      newMapProps.imageOverlays = mapProps.imageOverlays
+    }
+    if (!isEqual(mapProps.mapBounds, previousProps.mapBounds)) {
+      newMapProps.mapBounds = mapProps.mapBounds
+    }
     if (mapProps.maxZoom !== previousProps.maxZoom) {
       newMapProps.maxZoom = mapProps.maxZoom
     }

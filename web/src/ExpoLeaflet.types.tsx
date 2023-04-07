@@ -1,6 +1,12 @@
-import type { LatLngLiteral, MapOptions } from 'leaflet'
-import { ReactElement } from 'react'
-import { LeafletWebViewEvent, MapLayer, MapMarker, MapShape } from './model'
+import type {
+  ImageOverlayOptions,
+  LatLngBoundsExpression,
+  LatLngBoundsLiteral,
+  LatLngLiteral,
+  MapOptions,
+} from "leaflet"
+import { ReactElement } from "react"
+import { LeafletWebViewEvent, MapLayer, MapMarker, MapShape } from "./model"
 
 export type LeafletMapProps = {
   mapOptions?: MapOptions
@@ -10,7 +16,17 @@ export type LeafletMapProps = {
   mapCenterPosition: LatLngLiteral
   zoom?: number
   maxZoom?: number
+
+  // updated
   flyTrigger?: number
+  // imageOverlays
+  imageOverlays?: Array<{
+    imageUrl: string
+    bounds: LatLngBoundsExpression
+    options?: ImageOverlayOptions | undefined
+  }>
+  // bounds
+  mapBounds?: LatLngBoundsLiteral
 }
 
 export type ExpoLeafletProps = LeafletMapProps & {

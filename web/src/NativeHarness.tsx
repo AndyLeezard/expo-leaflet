@@ -19,6 +19,7 @@ export const NativeHarness = () => {
     mapLayers: [],
     mapMarkers: [],
     mapShapes: [],
+    imageOverlays: [],
     maxZoom: 20,
     zoom: 6,
     flyTrigger: 0,
@@ -73,6 +74,8 @@ export const NativeHarness = () => {
       mapShapes={state.mapShapes}
       maxZoom={state.maxZoom}
       zoom={state.zoom}
+      mapBounds={state.mapBounds}
+      imageOverlays={state.imageOverlays}
       flyTrigger={state.flyTrigger}
       onMessage={(webViewLeafletEvent: LeafletWebViewEvent) => {
         sendMessage(webViewLeafletEvent)
